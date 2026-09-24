@@ -75,6 +75,7 @@ export default function AladinSkyCanvas({
   const activeProjection = useUniverseStore((state) => state.activeProjection);
   const isCooGridVisible = useUniverseStore((state) => state.isCooGridVisible);
   const setCursorCoords = useUniverseStore((state) => state.setCursorCoords);
+  const setTileStreamingStatus = useUniverseStore((state) => state.setTileStreamingStatus);
 
   // Initialize Aladin Lite v3 instance
   useEffect(() => {
@@ -91,6 +92,77 @@ export default function AladinSkyCanvas({
 
     let isMounted = true;
     let resizeObserver: ResizeObserver | null = null;
+    let perfObserver: PerformanceObserver | null = null;
+    let telemetryTimer: NodeJS.Timeout | null = null;
+    let loadedTilesCount = 0;
+    let activeRequestsCount = 0;
+    let stalledOrderCycles = 0;
+
+    // Intercept fetch for real-time in-flight HiPS tile request tracking
+    const originalFetch = window.fetch;
+    window.fetch = async function (...args) {
+      const url =
+        typeof args[0] === 'string'
+          ? args[0]
+          : args[0] && (args[0] as Request).url
+          ? (args[0] as Request).url
+          : '';
+      const isHiPSTile =
+        url.includes('/Norder') ||
+        url.includes('.jpg') ||
+        url.includes('.fits') ||
+        url.includes('hips');
+      if (isHiPSTile) {
+        activeRequestsCount++;
+      }
+      try {
+        const res = await originalFetch.apply(this, args);
+        if (isHiPSTile) {
+          activeRequestsCount = Math.max(0, activeRequestsCount - 1);
+          loadedTilesCount++;
+        }
+        return res;
+      } catch (err) {
+        if (isHiPSTile) {
+          activeRequestsCount = Math.max(0, activeRequestsCount - 1);
+        }
+        throw err;
+      }
+    };
+
+    // PerformanceObserver to track resource transfer
+    try {
+      perfObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        for (const entry of entries) {
+          if (
+            entry.name.includes('/Norder') ||
+            entry.name.includes('.jpg') ||
+            entry.name.includes('.fits')
+          ) {
+            loadedTilesCount++;
+          }
+        }
+      });
+      perfObserver.observe({ entryTypes: ['resource'] });
+    } catch (e) {
+      // PerformanceObserver fallback
+    }
+
+    // Expose global force sync
+    (window as any).__forceSyncHiPS = () => {
+      if (aladinInstanceRef.current?.view) {
+        if (typeof aladinInstanceRef.current.view.requestRedraw === 'function') {
+          aladinInstanceRef.current.view.requestRedraw();
+        }
+        if (
+          aladinInstanceRef.current.view.wasm &&
+          typeof aladinInstanceRef.current.view.wasm.update === 'function'
+        ) {
+          aladinInstanceRef.current.view.wasm.update();
+        }
+      }
+    };
 
     const initAladin = async () => {
       try {
@@ -167,6 +239,69 @@ export default function AladinSkyCanvas({
             window.__aladin = aladin;
           }
           setCanvasReady(true);
+
+          // Telemetry and auto-recovery watchdog loop
+          telemetryTimer = setInterval(() => {
+            if (!isMounted || !aladinInstanceRef.current) return;
+            const inst = aladinInstanceRef.current;
+            const wasm = inst.view?.wasm;
+            const currentOrder =
+              wasm && typeof wasm.getNOrder === 'function' ? wasm.getNOrder() : 1;
+            const bkg = inst.getBaseImageLayer ? inst.getBaseImageLayer() : null;
+            const maxOrder = bkg?.maxOrder || 8;
+            const fov =
+              typeof inst.getFov === 'function' ? inst.getFov()[0] : 130;
+            const width = containerRef.current?.clientWidth || 1920;
+            const arcsecPerPx = (fov * 3600) / Math.max(width, 1);
+
+            // Deep zoom watchdog: if fov < 5.0 but order < 6 for consecutive cycles, trigger redraw to load high order tiles
+            if (fov < 5.0 && currentOrder < 6) {
+              stalledOrderCycles++;
+              if (stalledOrderCycles >= 4) {
+                if (inst.view && typeof inst.view.requestRedraw === 'function') {
+                  inst.view.requestRedraw();
+                }
+                stalledOrderCycles = 0;
+              }
+            } else {
+              stalledOrderCycles = 0;
+            }
+
+            const isLoading = activeRequestsCount > 0;
+            let percent = 100;
+            if (isLoading) {
+              percent = Math.min(
+                96,
+                Math.max(15, Math.round((currentOrder / Math.max(maxOrder, 1)) * 90))
+              );
+            }
+
+            let cleanSurveyName = 'AllWISE Infrared (W1-W4)';
+            if (bkg?.name && !bkg.name.startsWith('http')) {
+              cleanSurveyName = bkg.name.replace(/^CDS\//i, '');
+            } else if (activeSurveyUrl.includes('2MASS')) {
+              cleanSurveyName = '2MASS Color (JHK)';
+            } else if (activeSurveyUrl.includes('DSS')) {
+              cleanSurveyName = 'DSS2 Optical Color';
+            } else if (activeSurveyUrl.includes('AllWISE') || activeSurveyUrl.includes('wise')) {
+              cleanSurveyName = 'AllWISE Infrared (W1-W4)';
+            }
+
+            setTileStreamingStatus({
+              isLoading,
+              tilesLoaded: loadedTilesCount,
+              tilesPending: activeRequestsCount,
+              activeRequests: activeRequestsCount,
+              percent,
+              currentOrder,
+              maxOrder,
+              surveyName: cleanSurveyName,
+              samplingScaleArcsec: arcsecPerPx,
+              statusText: isLoading
+                ? `Streaming ${activeRequestsCount} HiPS tiles...`
+                : 'Synchronized',
+            });
+          }, 250);
 
           // Fluid responsiveness on viewport / window resize
           if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
@@ -280,6 +415,13 @@ export default function AladinSkyCanvas({
       if (resizeObserver && containerRef.current) {
         resizeObserver.disconnect();
       }
+      if (telemetryTimer) {
+        clearInterval(telemetryTimer);
+      }
+      if (perfObserver) {
+        perfObserver.disconnect();
+      }
+      window.fetch = originalFetch;
       window.removeEventListener('unhandledrejection', handleUnhandledRejection);
       window.removeEventListener('error', handleError);
       if (typeof window !== 'undefined' && window.__aladin === aladinInstanceRef.current) {
