@@ -12,7 +12,6 @@ import GoogleNavControls from '@/components/shell/GoogleNavControls';
 import ContextPanel from '@/components/hud/ContextPanel';
 import HelpModal from '@/components/shell/HelpModal';
 import BlinkDiffModal from '@/components/hud/BlinkDiffModal';
-import StatusBar from '@/components/shell/StatusBar';
 import { useUniverseStore } from '@/store/useUniverseStore';
 
 export default function SpherexOdysseyApp() {
@@ -50,9 +49,6 @@ export default function SpherexOdysseyApp() {
 
       {/* 7. Contextual Documentation Guide */}
       <HelpModal />
-
-      {/* 8. Persistent Scientific Telemetry & Coordinate Bar */}
-      <StatusBar />
     </main>
   );
 }
