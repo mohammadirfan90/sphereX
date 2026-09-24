@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  --color-google-bg: #131314;
+  --color-google-surface: #1E1F20;
+  --color-google-surface-variant: #282A2C;
+  --color-google-surface-container: #2D2F31;
+  --color-google-border: rgba(255, 255, 255, 0.12);
+  --color-google-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-google-text-primary: #E3E3E3;
+  --color-google-text-secondary: #9AA0A6;
+  --color-google-blue: #8AB4F8;
+  --color-google-blue-hover: #AECBFA;
+  --color-google-red: #EA4335;
+  --color-google-yellow: #FBBC05;
+  --color-google-green: #34A853;
+  --color-spherex-coral: #FF7563;
+  --color-spherex-cyan: #78D9EC;
+  --font-sans: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --background: #131314;
+  --foreground: #E3E3E3;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  overflow: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.google-sans {
+  font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Google Material 3 Floating Shadow */
+.google-shadow-elevation {
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.45), 0 1px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.google-shadow-card {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.55), 0 2px 8px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Google Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Google Material 3 Slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+input[type="range"]:focus {
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #8AB4F8;
+  border: 2px solid #131314;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  margin-top: -6px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #AECBFA;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+
+/* Hide Aladin Lite internal native UI controls, logo container, and horizontal list */
+#aladin-lite-div input,
+#aladin-lite-div button,
+#aladin-lite-div select,
+.aladin-location-box,
+.aladin-projection-box,
+.aladin-view-box,
+.aladin-header,
+.aladin-coo-frame,
+.aladin-box,
+.aladin-popup,
+.aladin-context-menu,
+.aladin-zoom-control,
+.aladin-layer-control,
+.aladin-target-control,
+.aladin-share-control,
+.aladin-fullscreen-control,
+.aladin-logo-container,
+.aladin-logo,
+.aladin-horizontal-list,
+#aladin-lite-div .aladin-logo-container,
+#aladin-lite-div .aladin-logo,
+#aladin-lite-div .aladin-horizontal-list {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
