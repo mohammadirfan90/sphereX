@@ -524,10 +524,26 @@ export const useUniverseStore = create<UniverseStore>()(
         const next = !s.isCooGridVisible;
         const aladin = typeof window !== 'undefined' ? (window as any).__aladin : null;
         if (aladin) {
-          if (next && typeof aladin.showCooGrid === 'function') {
-            aladin.showCooGrid({ color: '#8ab4f8', opacity: 0.35, labelColor: '#e3e3e3' });
-          } else if (!next && typeof aladin.hideCooGrid === 'function') {
-            aladin.hideCooGrid();
+          if (next) {
+            if (typeof aladin.setCooGrid === 'function') {
+              aladin.setCooGrid({
+                enabled: true,
+                color: '#9aa0a6',
+                opacity: 0.15,
+                thickness: 0.5,
+                labelSize: 10,
+                showLabels: true,
+                fmt: 'decimal',
+              });
+            } else if (typeof aladin.showCooGrid === 'function') {
+              aladin.showCooGrid({ color: '#9aa0a6', opacity: 0.15, labelColor: '#9aa0a6' });
+            }
+          } else {
+            if (typeof aladin.setCooGrid === 'function') {
+              aladin.setCooGrid({ enabled: false });
+            } else if (typeof aladin.hideCooGrid === 'function') {
+              aladin.hideCooGrid();
+            }
           }
         }
         return { isCooGridVisible: next };
