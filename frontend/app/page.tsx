@@ -10,6 +10,7 @@ import GoogleWavelengthSheet from '@/components/shell/GoogleWavelengthSheet';
 import GoogleAgentationDrawer from '@/components/shell/GoogleAgentationDrawer';
 import GoogleNavControls from '@/components/shell/GoogleNavControls';
 import ContextPanel from '@/components/hud/ContextPanel';
+import SkyStreamingHUD from '@/components/hud/SkyStreamingHUD';
 import HelpModal from '@/components/shell/HelpModal';
 import BlinkDiffModal from '@/components/hud/BlinkDiffModal';
 import { useUniverseStore } from '@/store/useUniverseStore';
@@ -40,6 +41,9 @@ export default function SpherexOdysseyApp() {
 
       {/* 4. Google Knowledge Card / Compare / Measure (Top-Right) */}
       <ContextPanel />
+
+      {/* 4b. Celestial Survey Tile Streaming Progress & Telemetry HUD (Top-Right) */}
+      <SkyStreamingHUD />
 
       {/* 5. Google Earth Navigation Controls (Bottom-Right) */}
       <GoogleNavControls />

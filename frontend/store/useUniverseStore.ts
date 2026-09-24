@@ -66,6 +66,19 @@ export interface CompareSettings {
   opacity: number;
 }
 
+export interface TileStreamingStatus {
+  isLoading: boolean;
+  tilesLoaded: number;
+  tilesPending: number;
+  percent: number;
+  currentOrder: number;
+  maxOrder: number;
+  surveyName: string;
+  samplingScaleArcsec: number;
+  activeRequests: number;
+  statusText: string;
+}
+
 export interface UniverseState {
   // Navigation & Core Layers
   activeRelease: SPHERExRelease;
@@ -75,6 +88,9 @@ export interface UniverseState {
   solarSystemLayers: SolarSystemLayers;
   catalogLayers: CatalogLayers;
   scienceLayers: ScienceLayers;
+
+  // Real-time celestial tile streaming telemetry
+  tileStreamingStatus: TileStreamingStatus;
 
   // Observation Timeline (Decoupled from release versions)
   //
@@ -205,6 +221,7 @@ export interface UniverseActions {
   toggleProjection3D: () => void;
   setActiveTool: (tool: ActiveTool) => void;
   setMode: (mode: OperationalMode) => void;
+  setTileStreamingStatus: (status: Partial<TileStreamingStatus>) => void;
 
   // Release registry actions (Phase 2).
   //
@@ -257,6 +274,20 @@ export const useUniverseStore = create<UniverseStore>()(
       variableSources: false,
       changeDetection: false,
       spectralFeatures: true,
+    },
+
+    // Real-time celestial tile streaming telemetry
+    tileStreamingStatus: {
+      isLoading: false,
+      tilesLoaded: 0,
+      tilesPending: 0,
+      percent: 100,
+      currentOrder: 1,
+      maxOrder: 8,
+      surveyName: 'AllWISE Infrared (W1-W4)',
+      samplingScaleArcsec: 243.75,
+      activeRequests: 0,
+      statusText: 'Synchronized',
     },
 
     // Observation Timeline — defaults to the QR3 *publication* epoch.
@@ -587,6 +618,10 @@ export const useUniverseStore = create<UniverseStore>()(
         activeContextPanel: tool ? 'none' : s.activeContextPanel,
       })),
     setMode: (mode) => set({ mode }),
+    setTileStreamingStatus: (status) =>
+      set((state) => ({
+        tileStreamingStatus: { ...state.tileStreamingStatus, ...status },
+      })),
 
     /**
      * Refresh the IRSA release registry snapshot.
