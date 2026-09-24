@@ -1,0 +1,17 @@
+# Source URL : https://gea.esac.esa.int/tap-server/tap/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=json
+#               &QUERY=SELECT+*+FROM+gaiadr3.gaia_source+WHERE+source_id=%273343844654384148992%27
+# Captured at: 2026-09-23T00:00:00Z
+# Source     : Betelgeuse (alpha Ori) — Gaia DR3 source_id 3343884654384148992
+# Authenticity: RUWE > 1.4 — known resolved-supergiant source; phase 4 must
+#               propagate the ruwe flag into kinematics.gaia_ruwe but NOT
+#               refuse the measurement. Value matches the public Gaia DR3
+#               archive. Parallax is negative (Luri et al. 2018 regime) so the
+#               tangential velocity must come back as None / unavailable.
+status_code: 200
+content_type: application/json
+captured_body_path: betelgeuse_dr3_row.json
+adapter_contract: adapters.gaia_astrometry:parse_gaia_row
+expected_source_id: "3343884654384148992"
+expected_negative_parallax: true
+expected_ruwe_above_threshold: true
+expected_tangential_velocity_refused: true

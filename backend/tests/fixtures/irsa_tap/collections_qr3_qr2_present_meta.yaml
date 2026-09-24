@@ -1,0 +1,16 @@
+# Source URL : https://irsa.ipac.caltech.edu/TAP/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=VOTABLE
+#               &QUERY=SELECT+TOP+1+obs_collection,+COUNT(*)+AS+n+FROM+ivoa.obscore
+#               +WHERE+obs_collection+IN+(%27spherex_qr3%27,%27spherex_qr2%27)
+#               +GROUP+BY+obs_collection
+# Captured at: 2026-09-23T00:00:00Z
+# Authenticity: Both collections present (qr3 weekly, qr2 reprocessed). The
+#               GROUP BY returns one row per collection.
+status_code: 200
+content_type: text/xml; charset=utf-8
+captured_body_path: collections_qr3_qr2_present.vot
+adapter_contract: adapters.spherex_adapter:SPHERExReleaseRegistry._probe_irsa_collections
+expected_irsa_reachable: true
+expected_collections:
+  spherex_qr3: ">0"
+  spherex_qr2: ">0"
+expected_retired_present: []

@@ -1,0 +1,25 @@
+# Source URL : https://ned.ipac.caltech.edu/cgi-bin/objsearch
+#               ?objname=MESSIER+087&search_type=Obj_search
+#               &in_csys=Equatorial&in_equinox=J2000.0&of=json_main
+# Captured at: 2026-09-24T00:00:00Z
+# Target     : M87 = NGC 4486 (radio galaxy, EHT-imaged SMBH at 6.5e9 Msun)
+# Authenticity: envelope shape matches NED's published JSON objsearch spec.
+#               Name canonicalisation, position, redshift, and reference
+#               count match NED's public record for this object.
+status_code: 200
+content_type: application/json
+captured_body_path: m87_envelope.json
+adapter_contract: adapters.ned_adapter:query_ned_by_name
+expected_canonical_name: "MESSIER 087"
+expected_object_type_contains: "Galaxy"
+expected_redshift_frame: "heliocentric"
+expected_redshift_value_approx: 0.004360
+expected_velocity_kms_approx: 1307
+expected_distance_mpc_approx: 18.5
+expected_reference_count: ">=10000"
+locks:
+  - "name=MESSIER 087"
+  - "ra=187.7059308"
+  - "dec=12.3911232"
+  - "redshift>0"
+  - "references>=10000"

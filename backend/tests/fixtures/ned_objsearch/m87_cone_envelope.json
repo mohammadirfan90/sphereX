@@ -1,0 +1,41 @@
+{
+  "Copyright": {
+    "Title": "NASA/IPAC Extragalactic Database",
+    "Publisher": "IPAC"
+  },
+  "rows": [
+    {
+      "Name": "MESSIER 087",
+      "RA": 187.7059308,
+      "Dec": 12.3911232,
+      "Type": "Elliptical Galaxy",
+      "Separation": 0.0,
+      "Redshift": 0.004360,
+      "V": 1307,
+      "Distance_Mpc": 18.5,
+      "References": 12384
+    },
+    {
+      "Name": "NGC 4486B",
+      "RA": 187.74712,
+      "Dec": 12.29048,
+      "Type": "Compact Elliptical Galaxy",
+      "Separation": 78.3,
+      "Redshift": 0.004231,
+      "V": 1268,
+      "Distance_Mpc": 17.9,
+      "References": 412
+    },
+    {
+      "Name": "NGC 4476",
+      "RA": 187.45633,
+      "Dec": 12.34842,
+      "Type": "Lenticular Galaxy",
+      "Separation": 285.1,
+      "Redshift": 0.004571,
+      "V": 1370,
+      "Distance_Mpc": 18.7,
+      "References": 287
+    }
+  ]
+}

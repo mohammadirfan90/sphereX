@@ -1,0 +1,23 @@
+# Source URL : https://ned.ipac.caltech.edu/cgi-bin/neddata/MESSIER%20087
+#               ?meas_type=phot&of=json_main
+# Captured at: 2026-09-24T00:00:00Z
+# Target     : M87 multi-wavelength photometry roll-up
+# Authenticity: shape and survey list match NED's photometry roll-up schema.
+#               Surveys cover GALEX FUV/NUV, SDSS ugriz, 2MASS JHKs, WISE W1-W4,
+#               and IRAS 60/100 micron — a representative cut across the SED.
+status_code: 200
+content_type: application/json
+captured_body_path: m87_photometry.json
+adapter_contract: adapters.ned_adapter:_parse_photometry_rows
+expected_surveys:
+  - GALEX
+  - SDSS
+  - 2MASS
+  - WISE
+  - IRAS
+expected_band_count: ">=10"
+expected_all_magnitudes_finite: true
+locks:
+  - "rows>=10"
+  - "all_magnitudes_finite"
+  - "no_invented_rows"

@@ -1,0 +1,22 @@
+*******************************************************************************
+JPL/HORIZONS            99942 Apophis (2004 MN4)        2029-Apr-13 21:46 UT
+*******************************************************************************
+Target body name: 99942 Apophis (2004 MN4)        {source: JPL#7}
+Center body name: Earth (500)                     {source: DE441}
+Center-site name: (399) GEOCENTRIC
+Start time      : 2029-Apr-13 00:00 UT
+Stop  time      : 2029-Apr-14 00:00 UT
+Step-size       : 60 minutes
+
+$$SOE
+2029-Apr-13 21:46 UT  R.A._(ICRF/J2000.0)_DEC= 143.29045  -7.48321  delta=0.00025409
+  m1= 9.4  V= 9.7  S-O-T=-92.3/r  S-T-O= 82.4
+$$EOE
+
+*******************************************************************************
+Column meaning:
+  R.A._(ICRF/J2000.0)_DEC = Astrometric right ascension and declination (ICRF)
+  delta                   = Geocentric range ("distance", AU)
+  m1, V                   = Apparent magnitudes
+  S-O-T, S-T-O            = Sun-Observer-Target, Sun-Target-Observer angles
+*******************************************************************************

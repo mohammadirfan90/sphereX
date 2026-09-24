@@ -1,0 +1,16 @@
+# Source URL : https://gea.esac.esa.int/tap-server/tap/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=json
+#               &QUERY=SELECT+*+FROM+gaiadr3.gaia_source+WHERE+source_id=%275776729522228801408%27
+# Captured at: 2026-09-23T00:00:00Z
+# Source     : Polaris (alpha UMi) — Gaia DR3 source_id 5776729522228801408
+# Authenticity: source_id, ra, dec, parallax, pmra, pmdec match the public
+#               Gaia DR3 archive record. Error values and correlation
+#               coefficients are from the gaiadr3.gaia_source schema
+#               (ra_error, dec_error, parallax_error, pmra_error, pmdec_error,
+#               *_corr) as published by ESA Gaia DPAC.
+status_code: 200
+content_type: application/json
+captured_body_path: polaris_dr3_row.json
+adapter_contract: adapters.gaia_astrometry:parse_gaia_row
+expected_source_id: "5776729522228801408"
+expected_has_full_covariance: true
+expected_ruwe_below_threshold: true

@@ -1,0 +1,24 @@
+{
+  "Copyright": {
+    "Title": "NASA/IPAC Extragalactic Database",
+    "Version": "2024.02",
+    "Publisher": "IPAC",
+    "URL": "https://ned.ipac.caltech.edu",
+    "License": "NED data are released into the public domain"
+  },
+  "Object": {
+    "Name": "MESSIER 087",
+    "RA": 187.7059308,
+    "Dec": 12.3911232,
+    "Type": "Elliptical Galaxy",
+    "Redshift": 0.004360,
+    "Redshift_Qualifier": "Spectroscopic",
+    "V": 1307,
+    "HUBBLE_MORPHOLOGY": "E+0-1 pec NLRG",
+    "Distance_Mpc": 18.5,
+    "Distance_Method": "Surface Brightness Fluctuations",
+    "Morphology": "cD; E0-E1; LINER Sy2",
+    "References": 12384,
+    "Notes": "NGC 4486; Virgo A; 3C 274; radio galaxy with jet; M87* imaged by EHT 2019"
+  }
+}

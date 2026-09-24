@@ -1,0 +1,31 @@
+{
+  "object": {
+    "designation": "99942",
+    "fullname": "99942 Apophis (2004 MN4)",
+    "orbit_class": {
+      "code": "ATE",
+      "name": "Aten"
+    },
+    "orbit_id": "7",
+    "orbit": {
+      "epoch": 2460000.5,
+      "elements": [
+        {"name": "e", "value": "0.19142561", "sigma": "0.00000016", "units": ""},
+        {"name": "a", "value": "0.92243800", "sigma": "8.2e-09", "units": "au"},
+        {"name": "i", "value": "3.33135",    "sigma": "1e-05",     "units": "deg"},
+        {"name": "om", "value": "204.44599", "sigma": "1e-05",     "units": "deg"},
+        {"name": "w",  "value": "126.40118", "sigma": "1e-05",     "units": "deg"},
+        {"name": "q",  "value": "0.74580263", "sigma": "1.4e-07",   "units": "au"},
+        {"name": "ad", "value": "1.09907337", "sigma": "1.4e-07",   "units": "au"},
+        {"name": "per", "value": "0.88611",   "sigma": "1.18e-08",  "units": "yr"}
+      ]
+    },
+    "phys_par": [
+      {"name": "H",  "value": "19.7",  "sigma": "0.1",  "units": "mag", "ref": "JPL-ESA"},
+      {"name": "diameter", "value": "0.340", "sigma": "0.040", "units": "km", "ref": "Müller et al. 2014"},
+      {"name": "albedo",   "value": "0.35",  "sigma": "0.10",  "units": "",   "ref": "Müller et al. 2014"},
+      {"name": "rot_per",  "value": "30.56", "sigma": "0.01",  "units": "h",  "ref": "Pravec et al. 2008"},
+      {"name": "spec_B",   "value": "Sq", "ref": "Binzel et al. 2009"}
+    ]
+  }
+}
