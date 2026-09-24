@@ -171,4 +171,87 @@ export const BENCHMARK_TARGETS: BenchmarkTarget[] = [
       },
     ],
   },
+  {
+    target_name: 'Andromeda Galaxy (M31)',
+    canonical_id: 'SPHEREx-EXTRA-M31',
+    ra_deg: 10.6847,
+    dec_deg: 41.2687,
+    category: 'deep_field',
+    catalog_ids: {
+      simbad: 'M31',
+      wise: 'J004244.33+411607.5',
+    },
+    preferred_fov_deg: 3.2,
+    summary:
+      'Nearest major spiral galaxy to the Milky Way (2.5 million light-years). SPHEREx measures integrated near-infrared stellar emissions, PAHs, and stellar populations across the entire 3° galactic disk in 102 bands.',
+    references: [
+      {
+        bibcode: '2020ApJ...892...51B',
+        ads_url: 'https://ui.adsabs.harvard.edu/abs/2020ApJ...892...51B',
+        description: 'Near-infrared spectral mapping of local group galaxies with SPHEREx.',
+      },
+    ],
+  },
+  {
+    target_name: 'Large Magellanic Cloud (LMC)',
+    canonical_id: 'SPHEREx-GAL-LMC',
+    ra_deg: 80.8942,
+    dec_deg: -69.7561,
+    category: 'deep_field',
+    catalog_ids: {
+      simbad: 'LMC',
+    },
+    preferred_fov_deg: 6.0,
+    summary:
+      'Satellite dwarf spiral galaxy at 50 kpc distance. SPHEREx conducts comprehensive ice inventory mapping across massive star-forming regions (including 30 Doradus / Tarantula Nebula).',
+    references: [
+      {
+        bibcode: '2018arXiv180505489D',
+        ads_url: 'https://ui.adsabs.harvard.edu/abs/2018arXiv180505489D',
+        description: 'SPHEREx: An All-Sky Spectral Survey (Interstellar Ices in the LMC).',
+      },
+    ],
+  },
+  {
+    target_name: 'Lockman Hole Cosmological Window',
+    canonical_id: 'SPHEREx-COSMO-LOCKMAN',
+    ra_deg: 162.29,
+    dec_deg: 57.25,
+    category: 'cosmology_field',
+    catalog_ids: {
+      simbad: 'Lockman Hole',
+    },
+    preferred_fov_deg: 2.0,
+    summary:
+      'Region of lowest interstellar neutral hydrogen column density (N_H < 5e19 cm^-2), serving as the clearest observational window for extragalactic deep surveys and Cosmic Infrared Background fluctuation measurement.',
+    references: [
+      {
+        bibcode: '1986ApJ...302..432L',
+        ads_url: 'https://ui.adsabs.harvard.edu/abs/1986ApJ...302..432L',
+        description: 'The HI structure in the direction of the Lockman Hole.',
+      },
+    ],
+  },
+  {
+    target_name: 'Whirlpool Galaxy (M51)',
+    canonical_id: 'SPHEREx-EXTRA-M51',
+    ra_deg: 202.4696,
+    dec_deg: 47.1952,
+    category: 'deep_field',
+    catalog_ids: {
+      simbad: 'M51',
+      wise: 'J132952.71+471142.6',
+    },
+    preferred_fov_deg: 0.8,
+    summary:
+      'Grand-design face-on spiral galaxy interacting with NGC 5195. SPHEREx extracts radial 102-band near-infrared spectrophotometric profiles tracing star formation and spiral arm dust emission.',
+    references: [
+      {
+        bibcode: '2021ApJS..254...42D',
+        ads_url: 'https://ui.adsabs.harvard.edu/abs/2021ApJS..254...42D',
+        description: 'Extragalactic spectrophotometric surveys with SPHEREx.',
+      },
+    ],
+  },
 ];
+

@@ -6,6 +6,8 @@ import AladinSkyCanvas from '@/components/canvas/AladinSkyCanvas';
 import ThreeCelestialCanvas from '@/components/canvas/ThreeCelestialCanvas';
 import { useUniverseStore } from '@/store/useUniverseStore';
 
+import { SURVEY_REGISTRY } from '@/lib/astronomy/surveyRegistry';
+
 export default function SkyViewer() {
   const activeBandIndex = useUniverseStore((state) => state.activeBandIndex);
   const unifiedObject = useUniverseStore((state) => state.unifiedObject);
@@ -14,14 +16,14 @@ export default function SkyViewer() {
   const historicalSurveys = useUniverseStore((state) => state.historicalSurveys);
   const benchmarkTargets = useUniverseStore((state) => state.benchmarkTargets);
 
-  // Determine active survey URL from selected historical layer or SPHEREx default
-  let activeSurveyUrl = 'https://skies.esac.esa.int/AllWISEColor';
+  // Authoritative survey resolution from SurveyRegistry
+  let activeSurveyUrl = SURVEY_REGISTRY.allwise_color.hips?.serviceUrl || 'https://alaskybis.cds.unistra.fr/AllWISE/RGB-W4-W2-W1';
   if (historicalSurveys.two_mass) {
-    activeSurveyUrl = 'https://skies.esac.esa.int/2MASS/Color';
+    activeSurveyUrl = SURVEY_REGISTRY.twomass_color.hips?.serviceUrl || 'https://alaskybis.cds.unistra.fr/2MASS/Color';
   } else if (historicalSurveys.dss2) {
-    activeSurveyUrl = 'https://skies.esac.esa.int/DSSColor';
+    activeSurveyUrl = SURVEY_REGISTRY.dss2_color.hips?.serviceUrl || 'https://skies.esac.esa.int/DSSColor';
   } else if (historicalSurveys.wise || historicalSurveys.neowise) {
-    activeSurveyUrl = 'https://skies.esac.esa.int/AllWISEColor';
+    activeSurveyUrl = SURVEY_REGISTRY.allwise_color.hips?.serviceUrl || 'https://alaskybis.cds.unistra.fr/AllWISE/RGB-W4-W2-W1';
   }
 
   return (
