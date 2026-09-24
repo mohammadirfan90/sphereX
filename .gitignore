@@ -1,0 +1,32 @@
+# Environments and dependencies
+node_modules/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.cache/
+
+# Build artifacts
+.next/
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Large archives, temp files, and logs
+*.zip
+*.log
+scratch/
+err.txt
+out.txt
+bug-report.md
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
