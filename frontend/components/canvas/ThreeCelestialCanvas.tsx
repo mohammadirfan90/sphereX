@@ -93,26 +93,6 @@ export default function ThreeCelestialCanvas() {
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 3. Real All-Sky Celestial Panorama (Authentic NASA / ESO Survey)
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-      '/milkyway_allsky.jpg',
-      (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        const sphereGeo = new THREE.SphereGeometry(260, 64, 64);
-        sphereGeo.scale(-1, 1, 1); // Invert normals to view from center
-        const sphereMat = new THREE.MeshBasicMaterial({
-          map: texture,
-          transparent: true,
-          opacity: 0.70,
-          depthWrite: false,
-        });
-        const skySphere = new THREE.Mesh(sphereGeo, sphereMat);
-        scene.add(skySphere);
-      },
-      undefined,
-      (err) => console.warn('All-sky texture notice:', err)
-    );
 
     // 4. High-Density Hyperspectral Starfield (8,000 Near-IR Stars)
     const starCount = 8000;

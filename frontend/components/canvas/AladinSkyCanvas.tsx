@@ -82,6 +82,7 @@ export default function AladinSkyCanvas({
     }
 
     let isMounted = true;
+    let resizeObserver: ResizeObserver | null = null;
 
     const initAladin = async () => {
       try {
@@ -123,9 +124,21 @@ export default function AladinSkyCanvas({
             aladin.setFov(130);
           }
 
-          // Enable mathematical coordinate grid
-          if (typeof aladin.showCooGrid === 'function' && isCooGridVisible) {
-            aladin.showCooGrid({ color: '#8ab4f8', opacity: 0.35, labelColor: '#e3e3e3' });
+          // Enable mathematical coordinate grid with subtle styling
+          if (isCooGridVisible) {
+            if (typeof aladin.setCooGrid === 'function') {
+              aladin.setCooGrid({
+                enabled: true,
+                color: '#9aa0a6',
+                opacity: 0.15,
+                thickness: 0.5,
+                labelSize: 10,
+                showLabels: true,
+                fmt: 'decimal',
+              });
+            } else if (typeof aladin.showCooGrid === 'function') {
+              aladin.showCooGrid({ color: '#9aa0a6', opacity: 0.15, labelColor: '#9aa0a6' });
+            }
           }
 
           // Lock orientation and disable slippery inertia for solid, user-friendly 2D navigation
@@ -144,6 +157,21 @@ export default function AladinSkyCanvas({
             window.__aladin = aladin;
           }
           setCanvasReady(true);
+
+          // Fluid responsiveness on viewport / window resize
+          if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+            resizeObserver = new ResizeObserver(() => {
+              if (aladin?.view) {
+                if (typeof aladin.view.debounceResize === 'function') {
+                  aladin.view.debounceResize();
+                }
+                if (typeof aladin.view.requestRedraw === 'function') {
+                  aladin.view.requestRedraw();
+                }
+              }
+            });
+            resizeObserver.observe(containerRef.current);
+          }
 
           // Safeguard: Prevent Aladin Lite's default ondrop from crashing on non-FITS files or images without WCS
           if (containerRef.current) {
@@ -239,6 +267,9 @@ export default function AladinSkyCanvas({
     return () => {
       isMounted = false;
       clearTimeout(watchdogTimer);
+      if (resizeObserver && containerRef.current) {
+        resizeObserver.disconnect();
+      }
       window.removeEventListener('unhandledrejection', handleUnhandledRejection);
       window.removeEventListener('error', handleError);
       if (typeof window !== 'undefined' && window.__aladin === aladinInstanceRef.current) {
@@ -305,10 +336,26 @@ export default function AladinSkyCanvas({
   useEffect(() => {
     if (aladinInstanceRef.current) {
       try {
-        if (isCooGridVisible && typeof aladinInstanceRef.current.showCooGrid === 'function') {
-          aladinInstanceRef.current.showCooGrid({ color: '#8ab4f8', opacity: 0.35, labelColor: '#e3e3e3' });
-        } else if (!isCooGridVisible && typeof aladinInstanceRef.current.hideCooGrid === 'function') {
-          aladinInstanceRef.current.hideCooGrid();
+        if (isCooGridVisible) {
+          if (typeof aladinInstanceRef.current.setCooGrid === 'function') {
+            aladinInstanceRef.current.setCooGrid({
+              enabled: true,
+              color: '#9aa0a6',
+              opacity: 0.15,
+              thickness: 0.5,
+              labelSize: 10,
+              showLabels: true,
+              fmt: 'decimal',
+            });
+          } else if (typeof aladinInstanceRef.current.showCooGrid === 'function') {
+            aladinInstanceRef.current.showCooGrid({ color: '#9aa0a6', opacity: 0.15, labelColor: '#9aa0a6' });
+          }
+        } else {
+          if (typeof aladinInstanceRef.current.setCooGrid === 'function') {
+            aladinInstanceRef.current.setCooGrid({ enabled: false });
+          } else if (typeof aladinInstanceRef.current.hideCooGrid === 'function') {
+            aladinInstanceRef.current.hideCooGrid();
+          }
         }
       } catch (e) {
         console.warn('Aladin showCooGrid notice:', e);
