@@ -63,7 +63,7 @@ export default function StatusBar() {
     const aladin = typeof window !== 'undefined' ? (window as any).__aladin : null;
     if (aladin) {
       if (typeof aladin.setProjection === 'function') aladin.setProjection('MER');
-      if (typeof aladin.setFrame === 'function') aladin.setFrame('Galactic');
+      if (typeof aladin.setFrame === 'function') aladin.setFrame('ICRS');
       if (aladin.view?.wasm?.setRotation) aladin.view.wasm.setRotation(0);
       if (typeof aladin.setRotation === 'function') aladin.setRotation(0);
       if (aladin.view?.wasm?.lockNorthUp) aladin.view.wasm.lockNorthUp();
@@ -94,29 +94,14 @@ export default function StatusBar() {
 
         <span className="opacity-30">·</span>
 
-        {/* Live Coordinate Readout (ICRS) */}
+        {/* Live Coordinate Readout (Strict ICRS J2000) */}
         <div className="flex items-center gap-1.5 text-[#f8f9fa] shrink-0">
-          <span className="text-[#9aa0a6]">ICRS</span>
+          <span className="text-[#81c995] font-semibold">ICRS</span>
           <span className="text-[#8ab4f8] font-semibold">{displayCoords.icrs.ra_hms}</span>
           <span className="text-[#8ab4f8] font-semibold">{displayCoords.icrs.dec_dms}</span>
           <span className="hidden md:inline text-[10px] text-[#9aa0a6]">
             ({displayCoords.icrs.ra_deg.toFixed(4)}°, {displayCoords.icrs.dec_deg.toFixed(4)}°)
           </span>
-        </div>
-
-        <span className="opacity-30">·</span>
-
-        {/* Active Celestial Frame Coords */}
-        <div className="hidden lg:flex items-center gap-1.5 text-[#e3e3e3] shrink-0">
-          {coordinateFrame === 'Galactic' && (
-            <span className="text-[#c58af9] font-medium">{displayCoords.galactic.formatted}</span>
-          )}
-          {coordinateFrame === 'Ecliptic' && (
-            <span className="text-[#fdd663] font-medium">{displayCoords.ecliptic.formatted}</span>
-          )}
-          {coordinateFrame === 'ICRS' && (
-            <span className="text-[#81c995] font-medium">J2000.0 Barycentric</span>
-          )}
         </div>
 
         <span className="opacity-30">·</span>
@@ -134,45 +119,14 @@ export default function StatusBar() {
 
       {/* 2. Right: Interactive Scientific State Controls */}
       <div className="flex items-center gap-2.5 shrink-0">
-        {/* Celestial Frame Selector */}
-        <div className="flex items-center rounded bg-white/5 border border-white/10 p-0.5 text-[10px]">
-          {(['ICRS', 'Galactic', 'Ecliptic'] as CelestialFrame[]).map((frame) => (
-            <button
-              key={frame}
-              onClick={() => setCoordinateFrame(frame)}
-              className={`px-1.5 py-0.5 rounded transition-colors ${
-                coordinateFrame === frame
-                  ? 'bg-[#8ab4f8] text-[#0d1017] font-semibold'
-                  : 'text-[#9aa0a6] hover:text-[#f8f9fa]'
-              }`}
-              title={`Switch canonical celestial display to ${frame}`}
-            >
-              {frame}
-            </button>
-          ))}
-        </div>
-
-        {/* Projection Selector */}
-        <div className="hidden sm:flex items-center rounded bg-white/5 border border-white/10 p-0.5 text-[10px]">
-          {[
-            { id: 'MER', label: 'MER' },
-            { id: 'AIT', label: 'AIT' },
-            { id: 'MOL', label: 'MOL' },
-            { id: 'SIN', label: 'SIN' },
-          ].map((proj) => (
-            <button
-              key={proj.id}
-              onClick={() => setActiveProjection(proj.id)}
-              className={`px-1.5 py-0.5 rounded transition-colors ${
-                activeProjection === proj.id
-                  ? 'bg-[#c58af9] text-[#0d1017] font-semibold'
-                  : 'text-[#9aa0a6] hover:text-[#f8f9fa]'
-              }`}
-              title={`Projection: ${proj.label}`}
-            >
-              {proj.label}
-            </button>
-          ))}
+        {/* Scientific Invariants: Strict ICRS (J2000) and Mercator (MER) */}
+        <div className="hidden sm:flex items-center gap-1.5 text-[10px]">
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[#81c995] font-semibold tracking-wide">
+            ICRS
+          </span>
+          <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[#c58af9] font-medium tracking-wide">
+            MER
+          </span>
         </div>
 
         {/* Coordinate Grid Toggle */}

@@ -289,7 +289,7 @@ export const useUniverseStore = create<UniverseStore>()(
     // Initial camera coordinates: Galactic Center 2D full-screen
     activeBandIndex: 1, // Array 1 (0.75 - 1.10 μm)
     coords: { ra: 0, dec: 0, fov: 130 },
-    coordinateFrame: 'Galactic',
+    coordinateFrame: 'ICRS',
     activeProjection: 'MER',
     cursorCoords: null,
     isCooGridVisible: true,

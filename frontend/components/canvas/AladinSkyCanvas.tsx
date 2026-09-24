@@ -96,9 +96,9 @@ export default function AladinSkyCanvas({
           const aladin = window.A.aladin(containerRef.current, {
             survey: validSurvey,
             projection: 'MER',
-            cooFrame: 'Galactic',
+            cooFrame: 'ICRS',
             fov: 130,
-            target: '0 0', // Galactic center (l=0, b=0)
+            target: '0 0',
             lockNorthUp: true,
             inertia: false,
             showReticle: false,
@@ -118,7 +118,7 @@ export default function AladinSkyCanvas({
             aladin.setProjection(activeProjection || 'MER');
           }
           if (typeof aladin.setFrame === 'function') {
-            aladin.setFrame(coordinateFrame || 'Galactic');
+            aladin.setFrame(coordinateFrame || 'ICRS');
           }
           if (typeof aladin.setFov === 'function') {
             aladin.setFov(130);
