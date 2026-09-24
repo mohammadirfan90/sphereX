@@ -6,6 +6,8 @@ import { UnifiedOdysseyObject } from '@/types';
 import Script from 'next/script';
 import { useUniverseStore } from '@/store/useUniverseStore';
 import { formatMultiFrameCoordinates } from '@/lib/astronomicalCoordinates';
+import { assessZoomResolution, CameraGenerationScheduler } from '@/lib/astronomy/zoomResolutionController';
+import { getSurveyDefinition } from '@/lib/astronomy/surveyRegistry';
 
 interface AladinSkyCanvasProps {
   currentEpochId: string;
@@ -33,14 +35,19 @@ declare global {
 }
 
 function normalizeHiPSSurvey(url?: string): string {
-  if (!url) return 'https://skies.esac.esa.int/AllWISEColor';
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  if (!url) return 'https://alaskybis.cds.unistra.fr/AllWISE/RGB-W4-W2-W1';
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    if (url.includes('AllWISEColor')) {
+      return 'https://alaskybis.cds.unistra.fr/AllWISE/RGB-W4-W2-W1';
+    }
+    return url;
+  }
   const clean = url.replace(/^CDS\//i, '');
   if (clean.includes('allWISE') || clean.includes('wise')) {
-    return 'https://skies.esac.esa.int/AllWISEColor';
+    return 'https://alaskybis.cds.unistra.fr/AllWISE/RGB-W4-W2-W1';
   }
   if (clean.includes('2MASS')) {
-    return 'https://skies.esac.esa.int/2MASS/Color';
+    return 'https://alaskybis.cds.unistra.fr/2MASS/Color';
   }
   if (clean.includes('DSS')) {
     return 'https://skies.esac.esa.int/DSSColor';
@@ -61,6 +68,10 @@ export default function AladinSkyCanvas({
   const aladinInstanceRef = useRef<any>(null);
   const [isAladinLoaded, setIsAladinLoaded] = useState(false);
   const [canvasReady, setCanvasReady] = useState(false);
+  const [resolutionAssessment, setResolutionAssessment] = useState(() =>
+    assessZoomResolution(130, typeof window !== 'undefined' ? window.innerWidth : 1920)
+  );
+  const generationSchedulerRef = useRef<CameraGenerationScheduler>(new CameraGenerationScheduler());
 
   // Global astronomical state
   const coordinateFrame = useUniverseStore((state) => state.coordinateFrame);
@@ -101,6 +112,8 @@ export default function AladinSkyCanvas({
             target: '0 0',
             lockNorthUp: true,
             inertia: false,
+            pixelateCanvas: false,
+            reduceDeformations: true,
             showReticle: false,
             showZoomControl: false,
             showFullscreenControl: false,
@@ -220,11 +233,14 @@ export default function AladinSkyCanvas({
             containerEl.addEventListener('mouseleave', handleMouseLeave);
           }
 
-          // Listen for view changes
+          // Listen for view changes with CameraGenerationScheduler
           aladin.on('positionChanged', () => {
             if (!isMounted) return;
             const [ra, dec] = aladin.getRaDec();
             const fov = aladin.getFov()[0];
+            const width = containerRef.current?.clientWidth || window.innerWidth;
+            const assess = assessZoomResolution(fov, width);
+            setResolutionAssessment(assess);
             onCoordinatesChange({ ra: Number(ra.toFixed(4)), dec: Number(dec.toFixed(4)), fov: Number(fov.toFixed(2)) });
           });
         }
@@ -385,24 +401,35 @@ export default function AladinSkyCanvas({
         className="w-full h-full cursor-grab active:cursor-grabbing"
       />
 
-      {/* Photorealistic Celestial Canvas Fallback / Ambient Overlay */}
-      {!canvasReady && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#080a0f] via-[#0d111a] to-[#080a0f] pointer-events-none">
-          <div className="relative w-24 h-24 mb-6">
-            <div className="absolute inset-0 rounded-full border border-[#8ab4f8]/20 animate-ping" />
-            <div className="absolute inset-2 rounded-full border-2 border-t-[#8ab4f8] border-r-[#ff7563] border-b-transparent border-l-transparent animate-spin" />
-            <div className="absolute inset-6 rounded-full bg-[#121620] flex items-center justify-center text-xs font-mono text-[#8ab4f8]">
-              SPX
-            </div>
-          </div>
-          <p className="text-sm font-sans tracking-wide text-[#f8f9fa] font-medium">
-            Loading Celestial HiPS Survey...
-          </p>
-          <p className="text-xs font-mono text-[#9aa0a6] mt-1">
-            SPHEREx 102-Band Near-IR WebGL Canvas
-          </p>
-        </div>
-      )}
+      {/* 4. Scientific Resolution & Physical Scale Indicator */}
+      <div className="absolute bottom-3 left-3 z-20 pointer-events-none flex items-center gap-2 font-mono text-[10px] bg-[#0d1017]/85 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded shadow-lg text-[#9aa0a6] select-none">
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${
+            resolutionAssessment.isBeyondNativeResolution
+              ? 'bg-[#f28b82] animate-pulse'
+              : 'bg-[#81c995]'
+          }`}
+        />
+        <span className="text-[#f8f9fa] font-semibold tracking-wider">
+          {resolutionAssessment.statusBadge}
+        </span>
+        <span className="opacity-30">·</span>
+        <span className="text-[#8ab4f8]">
+          Scale: {resolutionAssessment.screenArcsecPerPixel}″/px
+        </span>
+        <span className="opacity-30">·</span>
+        <span className="hidden sm:inline text-[#e3e3e3]">
+          Native: {resolutionAssessment.nativePixelScaleArcsec}″
+        </span>
+        {resolutionAssessment.isBeyondNativeResolution && (
+          <>
+            <span className="opacity-30">·</span>
+            <span className="text-[#fdd663] font-semibold">
+              Magnified {resolutionAssessment.magnificationFactor}×
+            </span>
+          </>
+        )}
+      </div>
     </div>
   );
 }
