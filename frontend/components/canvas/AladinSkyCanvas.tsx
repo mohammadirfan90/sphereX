@@ -6,7 +6,7 @@ import { UnifiedOdysseyObject } from '@/types';
 import Script from 'next/script';
 import { useUniverseStore } from '@/store/useUniverseStore';
 import { formatMultiFrameCoordinates } from '@/lib/astronomicalCoordinates';
-import { assessZoomResolution, CameraGenerationScheduler } from '@/lib/astronomy/zoomResolutionController';
+import { CameraGenerationScheduler } from '@/lib/astronomy/zoomResolutionController';
 import { getSurveyDefinition } from '@/lib/astronomy/surveyRegistry';
 
 interface AladinSkyCanvasProps {
@@ -68,9 +68,6 @@ export default function AladinSkyCanvas({
   const aladinInstanceRef = useRef<any>(null);
   const [isAladinLoaded, setIsAladinLoaded] = useState(false);
   const [canvasReady, setCanvasReady] = useState(false);
-  const [resolutionAssessment, setResolutionAssessment] = useState(() =>
-    assessZoomResolution(130, typeof window !== 'undefined' ? window.innerWidth : 1920)
-  );
   const generationSchedulerRef = useRef<CameraGenerationScheduler>(new CameraGenerationScheduler());
 
   // Global astronomical state
@@ -238,9 +235,6 @@ export default function AladinSkyCanvas({
             if (!isMounted) return;
             const [ra, dec] = aladin.getRaDec();
             const fov = aladin.getFov()[0];
-            const width = containerRef.current?.clientWidth || window.innerWidth;
-            const assess = assessZoomResolution(fov, width);
-            setResolutionAssessment(assess);
             onCoordinatesChange({ ra: Number(ra.toFixed(4)), dec: Number(dec.toFixed(4)), fov: Number(fov.toFixed(2)) });
           });
         }
@@ -400,36 +394,6 @@ export default function AladinSkyCanvas({
         ref={containerRef}
         className="w-full h-full cursor-grab active:cursor-grabbing"
       />
-
-      {/* 4. Scientific Resolution & Physical Scale Indicator */}
-      <div className="absolute bottom-3 left-3 z-20 pointer-events-none flex items-center gap-2 font-mono text-[10px] bg-[#0d1017]/85 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded shadow-lg text-[#9aa0a6] select-none">
-        <span
-          className={`w-1.5 h-1.5 rounded-full ${
-            resolutionAssessment.isBeyondNativeResolution
-              ? 'bg-[#f28b82] animate-pulse'
-              : 'bg-[#81c995]'
-          }`}
-        />
-        <span className="text-[#f8f9fa] font-semibold tracking-wider">
-          {resolutionAssessment.statusBadge}
-        </span>
-        <span className="opacity-30">·</span>
-        <span className="text-[#8ab4f8]">
-          Scale: {resolutionAssessment.screenArcsecPerPixel}″/px
-        </span>
-        <span className="opacity-30">·</span>
-        <span className="hidden sm:inline text-[#e3e3e3]">
-          Native: {resolutionAssessment.nativePixelScaleArcsec}″
-        </span>
-        {resolutionAssessment.isBeyondNativeResolution && (
-          <>
-            <span className="opacity-30">·</span>
-            <span className="text-[#fdd663] font-semibold">
-              Magnified {resolutionAssessment.magnificationFactor}×
-            </span>
-          </>
-        )}
-      </div>
     </div>
   );
 }
