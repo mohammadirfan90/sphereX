@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sesame xmlns="http://cds.unistra.fr/Sesame">
+  <Target name="Polaris">
+    <Resolver name="S">
+      <jIdentifier>V* alf UMi</jIdentifier>
+      <ra>37.95295613</ra>
+      <dec>89.26410997</dec>
+      <otype>Cepheid</otype>
+    </Resolver>
+    <Resolver name="P">
+      <ra>37.95295613</ra>
+      <dec>89.26410997</dec>
+      <pmRA>44.48</pmRA>
+      <pmDE>-11.74</pmDE>
+      <parallax>7.5401</parallax>
+      <radialVelocity>-17.4</radialVelocity>
+    </Resolver>
+  </Target>
+</Sesame>

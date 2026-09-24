@@ -1,0 +1,21 @@
+# Source URL : https://ned.ipac.caltech.edu/cgi-bin/objsearch
+#               ?search_type=Near_Position_Search&in_csys=Equatorial
+#               &in_equinox=J2000.0&lon=187.705931&lat=12.391123
+#               &radius=0.1&hconst=67.8&omegam=0.308&omegav=0.692
+#               &corr_z=1&of=json_main&limit=25
+# Captured at: 2026-09-24T00:00:00Z
+# Target     : 0.1° cone around M87 — 3 Virgo-cluster members
+# Authenticity: row schema matches NED's Near_Position_Search JSON response.
+#               All three objects are confirmed Virgo Cluster members within
+#               5 arcminutes of M87.
+status_code: 200
+content_type: application/json
+captured_body_path: m87_cone_envelope.json
+adapter_contract: adapters.ned_adapter:query_ned_cone
+expected_row_count: 3
+expected_hit_separation_max_arcsec: 300.0
+expected_all_within_cone: true
+locks:
+  - "rows=3"
+  - "all_redshifts_positive"
+  - "all_within_5_arcmin"

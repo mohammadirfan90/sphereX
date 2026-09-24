@@ -1,0 +1,25 @@
+{
+  "Copyright": {
+    "Title": "NASA/IPAC Extragalactic Database",
+    "Version": "2024.02",
+    "Publisher": "IPAC"
+  },
+  "Photometry": [
+    {"Survey": "GALEX",  "Band": "FUV", "Mag": 16.42, "Mag_Err": 0.04, "Reference": "2011ApJS..192....5M"},
+    {"Survey": "GALEX",  "Band": "NUV", "Mag": 15.71, "Mag_Err": 0.02, "Reference": "2011ApJS..192....5M"},
+    {"Survey": "SDSS",   "Band": "u",   "Mag": 12.93, "Mag_Err": 0.02, "Reference": "2007ApJS..172..545A"},
+    {"Survey": "SDSS",   "Band": "g",   "Mag": 10.74, "Mag_Err": 0.02, "Reference": "2007ApJS..172..545A"},
+    {"Survey": "SDSS",   "Band": "r",   "Mag":  9.59, "Mag_Err": 0.02, "Reference": "2007ApJS..172..545A"},
+    {"Survey": "SDSS",   "Band": "i",   "Mag":  8.99, "Mag_Err": 0.02, "Reference": "2007ApJS..172..545A"},
+    {"Survey": "SDSS",   "Band": "z",   "Mag":  8.55, "Mag_Err": 0.02, "Reference": "2007ApJS..172..545A"},
+    {"Survey": "2MASS",  "Band": "J",   "Mag":  7.39, "Mag_Err": 0.03, "Reference": "2003AJ....126.2120C"},
+    {"Survey": "2MASS",  "Band": "H",   "Mag":  6.59, "Mag_Err": 0.04, "Reference": "2003AJ....126.2120C"},
+    {"Survey": "2MASS",  "Band": "Ks",  "Mag":  6.34, "Mag_Err": 0.04, "Reference": "2003AJ....126.2120C"},
+    {"Survey": "WISE",   "Band": "W1",  "Mag":  6.32, "Mag_Err": 0.03, "Reference": "2014yCat.2328....0C"},
+    {"Survey": "WISE",   "Band": "W2",  "Mag":  6.40, "Mag_Err": 0.03, "Reference": "2014yCat.2328....0C"},
+    {"Survey": "WISE",   "Band": "W3",  "Mag":  6.13, "Mag_Err": 0.02, "Reference": "2014yCat.2328....0C"},
+    {"Survey": "WISE",   "Band": "W4",  "Mag":  5.62, "Mag_Err": 0.03, "Reference": "2014yCat.2328....0C"},
+    {"Survey": "IRAS",   "Band": "60mu","Mag":  3.51, "Mag_Err": 0.04, "Reference": "1990IRASF.C......0M"},
+    {"Survey": "IRAS",   "Band": "100mu","Mag": 2.18, "Mag_Err": 0.05, "Reference": "1990IRASF.C......0M"}
+  ]
+}

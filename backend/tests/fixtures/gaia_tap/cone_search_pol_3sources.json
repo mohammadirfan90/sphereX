@@ -1,0 +1,24 @@
+{
+  "metadata": [
+    {"name": "source_id", "datatype": "STRING", "ucd": "meta.id;meta.main"},
+    {"name": "ra", "datatype": "DOUBLE", "ucd": "pos.eq.ra;meta.main", "unit": "deg"},
+    {"name": "dec", "datatype": "DOUBLE", "ucd": "pos.eq.dec;meta.main", "unit": "deg"},
+    {"name": "parallax", "datatype": "DOUBLE", "ucd": "pos.parallax.trig", "unit": "mas"},
+    {"name": "parallax_error", "datatype": "DOUBLE"},
+    {"name": "pmra", "datatype": "DOUBLE", "ucd": "pos.pm;pos.eq.ra", "unit": "mas/yr"},
+    {"name": "pmra_error", "datatype": "DOUBLE"},
+    {"name": "pmdec", "datatype": "DOUBLE", "ucd": "pos.pm;pos.eq.dec", "unit": "mas/yr"},
+    {"name": "pmdec_error", "datatype": "DOUBLE"},
+    {"name": "radial_velocity", "datatype": "DOUBLE", "ucd": "spect.dopplerVeloc.opt;em.opt.I"},
+    {"name": "radial_velocity_error", "datatype": "DOUBLE"},
+    {"name": "ruwe", "datatype": "DOUBLE"},
+    {"name": "phot_g_mean_mag", "datatype": "DOUBLE", "ucd": "phot.mag;em.opt"},
+    {"name": "phot_bp_mean_mag", "datatype": "DOUBLE"},
+    {"name": "phot_rp_mean_mag", "datatype": "DOUBLE"}
+  ],
+  "data": [
+    ["5776729522228801408", 37.9529561343146, 89.26410996945225, 7.54005796369307, 0.0184, 44.4800026796087, 0.0205, -11.7393634929541, 0.0221, -17.4, 0.21, 1.024, 1.9742, 2.172, 1.985],
+    ["5776729522228801280", 38.0123456, 89.2741099, 0.85, 0.024, 8.21, 0.027, -2.31, 0.029, null, null, 1.21, 8.32, 8.45, 8.18],
+    ["5776729522228801152", 37.9012345, 89.2541099, 0.42, 0.031, 3.41, 0.034, -1.21, 0.036, null, null, 1.18, 9.41, 9.55, 9.27]
+  ]
+}

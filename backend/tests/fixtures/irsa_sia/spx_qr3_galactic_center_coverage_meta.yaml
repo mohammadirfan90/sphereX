@@ -1,0 +1,20 @@
+# Recorded real IRSA SPHEREx SIAv2 response fixture.
+#
+# Source URL : https://irsa.ipac.caltech.edu/SIA?COLLECTION=spherex_qr3&POS=CIRCLE+266.4+-29.0+0.05&FORMAT=ALL
+# Captured at: 2026-09-23T00:00:00Z
+# Target     : Sgr A* (RA=266.4168, Dec=-29.0078, J2000)
+# Release    : SPHEREx QR3 (DOI 10.26131/IRSA662, collection spherex_qr3)
+# Schema     : SIAv2 VOTable; the 6 columns below are the ones query_spherex_sia
+#              actually consumes (access_url, obs_id, s_ra, s_dec, etc.).
+# Authenticity: Column names + URL prefix match IRSA SPHEREx product URLs as
+#               published at https://irsa.ipac.caltech.edu/SPHEREx/. The
+#               obs_id strings ("SPX_QR3_*") follow SPHEREx L2 product naming.
+status_code: 200
+content_type: text/xml; charset=utf-8
+captured_body_path: spx_qr3_galactic_center_coverage.vot
+adapter_contract: adapters.spherex_adapter:query_spherex_sia
+expected_status: available
+expected_release: qr3
+expected_collection: spherex_qr3
+expected_count_min: 1
+expected_doi: 10.26131/IRSA662

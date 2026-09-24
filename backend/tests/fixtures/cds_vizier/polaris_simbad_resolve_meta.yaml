@@ -1,0 +1,12 @@
+# Source URL : https://cds.unistra.fr/cgi-bin/nph-sesame/-oxJ/SNV?Polaris
+# Captured at: 2026-09-23T00:00:00Z
+# Target     : Polaris (alpha UMi)
+# Authenticity: SIMBAD Sesame resolver response. The XML body is the standard
+#               Sesame output (J-Identifier, RA, Dec, type) for Polaris.
+status_code: 200
+content_type: application/xml
+captured_body_path: polaris_simbad_resolve.xml
+adapter_contract: adapters.cds_adapter:query_cds_sesame
+expected_canonical_name: "Polaris"
+expected_object_type: "Cepheid"
+expected_simbad_id: "V* alf UMi"

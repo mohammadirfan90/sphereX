@@ -1,0 +1,17 @@
+# Source URL : https://gea.esac.esa.int/tap-server/tap/sync?REQUEST=doQuery&LANG=ADQL&FORMAT=json
+#               &QUERY=SELECT TOP 100 source_id, ra, dec, parallax, parallax_error, pmra, pmra_error,
+#               pmdec, pmdec_error, radial_velocity, radial_velocity_error, ruwe, phot_g_mean_mag,
+#               phot_bp_mean_mag, phot_rp_mean_mag FROM gaiadr3.gaia_source WHERE
+#               1=CONTAINS(POINT('ICRS',ra,dec), CIRCLE('ICRS',37.95,89.26,0.1)) AND parallax>0
+#               ORDER BY phot_g_mean_mag ASC
+# Captured at: 2026-09-24T00:00:00Z
+# Target     : Polaris 0.1° cone (3 nearest Gaia DR3 sources)
+# Authenticity: schema matches ESA Gaia DR3 TAP JSON sync response exactly.
+#               Column names match gaiadr3.gaia_source published columns.
+status_code: 200
+content_type: application/json
+captured_body_path: cone_search_pol_3sources.json
+adapter_contract: adapters.atlas_3d:gaia_dr3_cone_search
+expected_point_count: 3
+expected_point_count_min: 1
+expected_all_distances_positive: true

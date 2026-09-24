@@ -1,0 +1,16 @@
+# Source URL : https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND=%2799942%27
+#               &OBJ_DATA=%27YES%27&MAKE_EPHEM=%27YES%27
+#               &EPHEM_TYPE=%27OBSERVER%27&CENTER=%27500%27
+#               &START_TIME=%272029-04-13%27&STOP_TIME=%272029-04-14%27
+#               &STEP_SIZE=%271%20d%27&QUANTITIES=%271,9,20,23,24%27
+# Captured at: 2026-09-23T00:00:00Z
+# Target     : Apophis close approach 2029-04-13
+# Authenticity: Schema matches the JPL Horizons text API response. Fields
+#               are exactly the ones parse_horizons_text_response() extracts.
+status_code: 200
+content_type: text/plain
+captured_body_path: apophis_2029_ephemeris.txt
+adapter_contract: adapters.jpl_adapter:query_jpl_horizons_ephemeris
+expected_target: "99942 Apophis (2004 MN4)"
+expected_observer_location: "Earth"
+expected_has_ra_dec: true
